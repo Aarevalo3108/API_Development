@@ -4,17 +4,16 @@
   "description": "Este repositorio consiste en un ejercicio para practicar NodeJS. El ejercicio trata del maneja de personal de una empresa mediante API",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Angel Arevalo",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.3"
   },
   "dependencies": {
     "express": "^4.19.2",
-    "mongoose": "^8.4.1",
-    "mongoose-paginate-v2": "^1.8.2"
+    "mongoose": "^8.4.1"
   }
 }
