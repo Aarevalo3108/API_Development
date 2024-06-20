@@ -11,6 +11,10 @@ const options = {
   }
 };
 
+exports.hello = (req,res) => {
+  res.json('Hello');
+}
+
 // usage with GET http://localhost:3000/employees parameters: page
 exports.getEmployees = async (req, res) => {
   options.page = parseInt(req.query.page) || 1;
@@ -26,7 +30,7 @@ exports.getEmployees = async (req, res) => {
 // usage with GET http://localhost:3000/employees/:id
 exports.getEmployeesById = async (req, res) => {
   try {
-    const employee = await Employees.findById(req.params.id);
+    const employee = await Employees.paginate({ _id: req.params.id}, options);
     res.json(employee);
   } catch (error) {
     res.status(500).json({ message: error.message });
