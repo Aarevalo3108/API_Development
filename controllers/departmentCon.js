@@ -24,7 +24,7 @@ exports.getDepartments = async (req, res) => {
 // usage with GET http://localhost:3000/departments/:id
 exports.getDepartmentById = async (req, res) => {
   try {
-    const department = await Department.findById(req.params.id);
+    const department = await Department.paginate({_id: req.params.id}, options);
     res.json(department);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -53,10 +53,11 @@ exports.searchDepartments = async (req, res) => {
 
 // usage with POST http://localhost:3000/departments
 exports.createDepartment = async (req, res) => {
-  const department = new Department(req.body);
   try {
+    const department = new Department(req.body);
     await department.save();
-    res.status(201).json(department);
+    const paginate = await Department.paginate({_id: department._id}, options);
+    res.status(201).json(paginate);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -68,8 +69,9 @@ exports.updateDepartment = async (req, res) => {
   const { id } = req.params;
   req.body.updateDate = Date.now();
   try {
-    const department = await Department.findByIdAndUpdate(id, req.body, { new: true });
-    res.json(department);
+    const {_id} = await Department.findByIdAndUpdate(id, req.body, { new: true });
+    const paginate = await Department.paginate({_id}, options);
+    res.status(200).json(paginate);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -81,8 +83,9 @@ exports.deleteDepartment = async (req, res) => {
   req.body.deleteDate = Date.now();
   req.body.isActive = false;
   try {
-    await Department.findByIdAndUpdate(req.params.id, req.body);
-    res.status(200).json({message: 'Department deleted successfully'});
+    const { _id } = await Department.findByIdAndUpdate(req.params.id, req.body);
+    const paginate = await Department.paginate({_id}, options);
+    res.status(200).json(paginate);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

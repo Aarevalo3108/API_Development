@@ -1,4 +1,4 @@
-import Base from './Base'
+import Base from './BaseItems/Base'
 
 const Home = () => {
   return (

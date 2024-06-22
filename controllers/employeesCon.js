@@ -77,42 +77,45 @@ exports.searchEmployees = async (req, res) => {
 }
 
 
-// usage with POST http://localhost:3000/employees
+// usage with POST http://localhost:3001/employees
 exports.createEmployees = async (req, res) => {
-  const department = await Department.findOne({name: req.body.office});
+  const department = await Department.findOne({ name: req.body.office });
   try {
     if (!department) {
       return res.status(400).json({ message: 'Department not found, please create a new one or check the spelling. Do you mean ' + (await Department.findOne({name: {$regex: req.body.office, $options: 'i'}})).name + '?' });
     }
-    const employees = new Employees(req.body);
-    await employees.save();
-    res.status(201).json(employees);
+    const employee = new Employees(req.body);
+    await employee.save();
+    const data = await Employees.paginate({_id: employee._id}, options);
+    res.status(201).json(data);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 }
 
 
-// usage with PATCH http://localhost:3000/employees/:id
+// usage with PATCH http://localhost:3001/employees/:id
 exports.updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
     req.body.updateDate = Date.now();
     const employees = await Employees.findByIdAndUpdate(id, req.body, { new: true });
-    res.json(employees);
+    const pagination = await Employees.paginate({_id: employees._id}, options);
+    res.status(200).json(pagination);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 }
 
 
-// usage with DELETE http://localhost:3000/employees/:id, soft delete
+// usage with DELETE http://localhost:3001/employees/:id, soft delete
 exports.deleteEmployee = async (req, res) => {
   req.body.deleteDate = Date.now();
   req.body.isActive = false;
   try {
-    await Employees.findByIdAndUpdate(req.params.id, req.body);
-    res.status(200).json({message: 'Employee deleted successfully'});
+    const employee = await Employees.findByIdAndUpdate(req.params.id, req.body);
+    const pagination = await Employees.paginate({_id: employee._id}, options);
+    res.status(200).json(pagination);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Nav from './components/Nav/Nav'
-import Base from './components/Base'
 import Home from './components/Home'
-import Employees from './components/Employees'
-import Department from './components/Department'
+import Employees from './components/Employees/Employees'
+import Departments from './components/Departments/Departments'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -14,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/employees" element={<Employees />} />
-        <Route path="/departments" element={<Base title="Departamentos" content="Aqui puedes hacer distintas operaciones con los departamentos. Incluyendo: Buscar, Crear, Modificar y Eliminar."></Base>} />
+        <Route path="/departments" element={<Departments/>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </BrowserRouter>
