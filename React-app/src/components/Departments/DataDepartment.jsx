@@ -10,7 +10,7 @@ const DataDepartment = (items) => {
       </div>
       <div> 
         <p><span className="font-bold">ID: </span>{items._id}</p>
-        <p><span className="font-bold">Descripcion: </span>{items.description}</p>
+        <p><span className="font-bold">Descripción: </span>{items.description}</p>
         <p><span className="font-bold">Activo: </span>{isActive}</p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 
 import axios from 'axios';
-import BaseURL from '../../constants/Api';
+import BaseURL from '../../../../constants/Api';
+import Initial from '../../../../constants/InitialFormData';
 
 axios.defaults.baseURL = BaseURL;
 
@@ -41,6 +42,7 @@ const manageAPI = (URL, info={}, headers={}, method="GET", update, setFormData, 
   } else if(method === "POST") {
     axios.post(URL, info, headers).then((res) => {
       setData(res.data);
+      Criteria == "employees" ? setFormData(Initial.employee) : setFormData(Initial.department);
     })
     .catch(err => {
       console.log(err);

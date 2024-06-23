@@ -3,16 +3,29 @@ const Department = require('../models/departmentMod');
 // options for pagination
 const options = {
   page: 1,
-  limit: 10,
+  limit: 12,
   collation: {
     locale: 'es'
   }
 };
 
+const regex = {
+  text: /^[a-zA-Z\s]{1,30}$/,
+  longText: /^[a-zA-Z0-9\s,'-]{1,300}$/
+};
+
+const validation = (data) => {
+  if(!regex.text.test(data.name) || !regex.longText.test(data.description)){
+    return false
+  }
+  return true
+}
+
 // usage with GET http://localhost:3000/departments parameters: page
 exports.getDepartments = async (req, res) => {
   try {
   options.page = parseInt(req.query.page) || 1;
+  options.limit = parseInt(req.query.limit) || 12;
   const departments = await Department.paginate({}, options);
   res.json(departments);
   } catch (error) {
@@ -53,7 +66,11 @@ exports.searchDepartments = async (req, res) => {
 
 // usage with POST http://localhost:3000/departments
 exports.createDepartment = async (req, res) => {
+  console.log(req.body);
   try {
+    if (!validation(req.body)) {
+      return res.status(400).json({ message: 'Invalid data, please check JSON and try again.' });
+    }
     const department = new Department(req.body);
     await department.save();
     const paginate = await Department.paginate({_id: department._id}, options);

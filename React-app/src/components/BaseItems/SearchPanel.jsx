@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Button from "./Button";
 import { useState, useEffect } from "react";
+import namesTranstale from './namesTranstale';
 
 const SearchPanel = ({setOptions, setSearch, Criteria}) => {
   let Keys = [];
@@ -18,10 +19,11 @@ const SearchPanel = ({setOptions, setSearch, Criteria}) => {
     if(filterKeys.length > 0) {
       setOptions({choice: 5, filters: Object.entries(filter).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&")});
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (
-    <div className="flex flex-col items-center gap-2 fixed top-8 translate-x-[25%] z-50 bg-white rounded-lg p-4 w-64 opacity-70 focus:opacity-100 hover:opacity-100 transition ease-in-out duration-300">
+    <div className="flex flex-col items-center gap-2 fixed top-8 sm:right-8 lg:top-16 place-content-end z-50 bg-white rounded-lg p-4 w-64 opacity-70 focus:opacity-100 hover:opacity-100 transition ease-in-out duration-300">
       <div className='flex flex-col items-center gap-2'>
         <h4 className="text-center text-lg font-bold">Parametros de busqueda</h4>
         <Button className="w-fit bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-1 px-2 rounded" onClick={() => setFilterPanel(!filterPanel)}>{filterPanel ? "Ocultar filtros" : "Mostrar filtros"}</Button>
@@ -33,21 +35,20 @@ const SearchPanel = ({setOptions, setSearch, Criteria}) => {
                 name="filter"
                 id="filter"
                 className="w-full h-10 bg-slate-100 rounded-lg p-2"
-                onChange={(e) => e.target.value && setFilterKeys([...filterKeys, e.target.value])}
+                onChange={(e) => e.target.value && !filterKeys.includes(e.target.value) && setFilterKeys([...filterKeys, e.target.value])}
               >
                 <option value="">Seleccionar</option>
                 {Keys.map((key, index) => (
                   <option key={index} value={key}>
-                    {key}
+                    {namesTranstale(key)}
                   </option>
                 ))}
               </select>
             </div>
           {filterKeys.map((key, index) => (
             <div key={index} className="flex gap-4 items-center">
-              <label htmlFor={key} className="text-lg font-bold">{key}:</label>
+              <label htmlFor={key} className="text-lg font-bold">{namesTranstale(key)}:</label>
               <input
-              placeholder={key}
                 type="text"
                 name={key}
                 id={key}
@@ -56,7 +57,7 @@ const SearchPanel = ({setOptions, setSearch, Criteria}) => {
               />
               <Button
                 className="w-4 h-6 bg-red-700 hover:bg-red-800 text-white font-bold rounded-full flex justify-center items-center"
-                onClick={() => setFilterKeys(filterKeys.filter((k) => k !== key))}
+                onClick={() => setFilterKeys(filterKeys.filter((k) => k != key))}
               >
                 X
               </Button>

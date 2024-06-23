@@ -1,11 +1,27 @@
 const Employees = require('../models/employeesMod');
 const Department = require('../models/departmentMod');
 
+const regex = {
+  text: /^[a-zA-Z\s]{1,30}$/,
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{1,}$/,
+  phone: /^\d{11}$/,
+  salary: /^\d{1,5}$/,
+  time: /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
+};
+const validation = (data) => {
+  if(!regex.text.test(data.name) || !regex.text.test(data.lastname) || !regex.text.test(data.office) ||
+    !regex.salary.test(data.salary) || !regex.email.test(data.email) || !regex.phone.test(data.number) ||
+    !regex.time.test(data.INdate) || !regex.time.test(data.OUTdate) || !regex.text.test(data.address.street) ||
+    !regex.text.test(data.address.city) || !regex.text.test(data.address.country) || !regex.text.test(data.address.postalCode)) {
+      return false;
+    }
+    return true;
+};
 
 // options for pagination
 const options = {
   page: 1,
-  limit: 10,
+  limit: 12,
   collation: {
     locale: 'es'
   }
@@ -18,6 +34,7 @@ exports.hello = (req,res) => {
 // usage with GET http://localhost:3000/employees parameters: page
 exports.getEmployees = async (req, res) => {
   options.page = parseInt(req.query.page) || 1;
+  options.limit = parseInt(req.query.limit) || 12;
   try {
     const employees = await Employees.paginate({}, options);
     res.json(employees);
@@ -82,7 +99,10 @@ exports.createEmployees = async (req, res) => {
   const department = await Department.findOne({ name: req.body.office });
   try {
     if (!department) {
-      return res.status(400).json({ message: 'Department not found, please create a new one or check the spelling. Do you mean ' + (await Department.findOne({name: {$regex: req.body.office, $options: 'i'}})).name + '?' });
+      return res.status(400).json({ message: 'Department not found, please create a new one or check the spelling.' });
+    }
+    if (!validation(req.body)) {
+      return res.status(400).json({ message: 'Invalid data, please check JSON and try again.' });
     }
     const employee = new Employees(req.body);
     await employee.save();
@@ -90,6 +110,7 @@ exports.createEmployees = async (req, res) => {
     res.status(201).json(data);
   } catch (error) {
     res.status(400).json({ message: error.message });
+    console.log(error);
   }
 }
 

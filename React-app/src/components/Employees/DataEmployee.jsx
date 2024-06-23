@@ -3,7 +3,7 @@ const imgURL = "https://xsgames.co/randomusers/assets/avatars/pixel/"
 const DataEmployee = (items) => {
   const isActive = items.isActive ? "Si" : "No";
   return (
-    <div className="grid grid-cols-2 items-center justify-center p-4 gap-2 shadow-md rounded-lg border">
+    <div className="grid grid-cols-2 max-w-96 items-center justify-center p-4 gap-2 shadow-md rounded-lg border">
       <h3 className="text-xl font-bold text-center">{items.name}, {items.lastname}</h3>
       <img className="w-24 border-2 rounded-full shadow-lg ml-4" src={`${imgURL}${items.img}.jpg`} alt={items.name} />
       <h4 className="col-span-2"><span className="font-bold">ID: </span>{items._id}</h4>
