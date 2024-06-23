@@ -14,13 +14,13 @@ const employee =
       country: '',
       postalCode: '',
     }
-  }
+  };
 
   const department =
   {
     name: '',
     description: ''
-  }
+  };
 
 
-export default { employee, department }
+export default { employee, department };

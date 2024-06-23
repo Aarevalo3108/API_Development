@@ -2,12 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
-const PORT = 3001;
+require('dotenv').config();
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/EmployeesManager');
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/EmployeesManager');
 
 const employees = require('./routes/employeesRou');
 const department = require('./routes/departmentRou');
