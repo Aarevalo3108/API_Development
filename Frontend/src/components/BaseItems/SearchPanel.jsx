@@ -6,10 +6,10 @@ import namesTranstale from './namesTranstale';
 const SearchPanel = ({setOptions, setSearch, Criteria}) => {
   let Keys = [];
   if(Criteria === "departments") {
-    Keys = ["name", "description", "isActive"];
+    Keys = ["name", "description"];
   }
   else{
-    Keys = ["name", "lastname", "office", "email", "number", "salary", "street", "city", "country", "postalCode", "isActive", "INdate", "OUTdate"];
+    Keys = ["name", "lastname", "office", "email", "number", "salary", "street", "city", "country", "postalCode", "INdate", "OUTdate"];
   }
   const [filter, setFilter] = useState({});
   const [filterKeys, setFilterKeys] = useState([]);
@@ -56,7 +56,7 @@ const SearchPanel = ({setOptions, setSearch, Criteria}) => {
                 onChange={(e) => setFilter({ ...filter, [key]: e.target.value })}
               />
               <Button
-                className="w-4 h-6 bg-red-700 hover:bg-red-800 text-white font-bold rounded-full flex justify-center items-center"
+                className="w-4 h-6 px-4 py-2 bg-red-700 hover:bg-red-800 text-white font-bold rounded-full flex justify-center items-center"
                 onClick={() => setFilterKeys(filterKeys.filter((k) => k != key))}
               >
                 X

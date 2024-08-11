@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Base from "../BaseItems/Base";
 import getData from "../BaseItems/getData";
-import Initial from "../../../../constants/InitialFormData";
+import Initial from "../../../constants/InitialFormData";
 import ButtonsPanel from "../BaseItems/ButtonsPanel";
 import PanelID from "../BaseItems/PanelID";
 import NextPrev from "../BaseItems/NextPrev";
@@ -18,13 +18,15 @@ const Employees = () => {
   const [update, setUpdate] = useState(false);
   const [erase, setErase] = useState(false);
   const [search, setSearch] = useState(false);
-  const [pages, setPages] = useState(0);
+  const [pages, setPages] = useState(1);
   const [formData, setFormData] = useState(Initial.employee);
 
   useEffect(() => {
     getData(pages, options, update, formData, setFormData, setPages, setPanel, setEmployees, id, Criteria);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages, options]);
+
+  // if(!employees.docs) return <Base title="Empleados" content="Aqui puedes hacer distintas operaciones con los empleados. Incluyendo: Buscar, Crear, Modificar y Eliminar."/>
 
   return (
     <>

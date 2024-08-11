@@ -36,7 +36,7 @@ exports.getEmployees = async (req, res) => {
   options.page = parseInt(req.query.page) || 1;
   options.limit = parseInt(req.query.limit) || 12;
   try {
-    const employees = await Employees.paginate({}, options);
+    const employees = await Employees.paginate({isActive: true}, options);
     res.json(employees);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,7 +47,7 @@ exports.getEmployees = async (req, res) => {
 // usage with GET http://localhost:3000/employees/:id
 exports.getEmployeesById = async (req, res) => {
   try {
-    const employee = await Employees.paginate({ _id: req.params.id}, options);
+    const employee = await Employees.paginate({ _id: req.params.id, isActive: true}, options);
     res.json(employee);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -84,9 +84,7 @@ exports.searchEmployees = async (req, res) => {
     if(country) searchCriteria.push({ address: { country: { $regex: country, $options: 'i' } } });
     const postalCode = req.query.postalCode;
     if(postalCode) searchCriteria.push({ address: { postalCode: { $regex: postalCode, $options: 'i' } } });
-    const isActive = req.query.isActive;
-    if(isActive) searchCriteria.push({ isActive: isActive });
-    const employees = await Employees.paginate({ $or: searchCriteria }, options);
+    const employees = await Employees.paginate({ $or: searchCriteria, isActive: true }, options);
     res.json(employees);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -134,7 +132,7 @@ exports.deleteEmployee = async (req, res) => {
   req.body.deleteDate = Date.now();
   req.body.isActive = false;
   try {
-    const employee = await Employees.findByIdAndUpdate(req.params.id, req.body);
+    const employee = await Employees.findByIdAndUpdate({ _id: req.params.id, isActive: true}, req.body);
     const pagination = await Employees.paginate({_id: employee._id}, options);
     res.status(200).json(pagination);
   } catch (error) {

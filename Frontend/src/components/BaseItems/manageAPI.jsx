@@ -1,7 +1,7 @@
 
 import axios from 'axios';
-import BaseURL from '../../../../constants/Api';
-import Initial from '../../../../constants/InitialFormData';
+import BaseURL from '../../../constants/Api';
+import Initial from '../../../constants/InitialFormData';
 
 axios.defaults.baseURL = BaseURL;
 

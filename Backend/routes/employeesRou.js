@@ -1,4 +1,3 @@
-const Employees = require('../models/employeesMod');
 const router = require('express').Router();
 
 const { hello,getEmployees, getEmployeesById, searchEmployees, createEmployees, updateEmployee, deleteEmployee } = require('../controllers/employeesCon');

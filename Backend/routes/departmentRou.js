@@ -1,4 +1,3 @@
-const Department = require('../models/departmentMod');
 const router = require('express').Router();
 
 const {getDepartments, getDepartmentById, searchDepartments, createDepartment, updateDepartment, deleteDepartment } = require('../controllers/departmentCon');

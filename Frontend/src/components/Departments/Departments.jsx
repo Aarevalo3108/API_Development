@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Base from "../BaseItems/Base";
 import getData from "../BaseItems/getData";
-import Initial from "../../../../constants/InitialFormData";
+import Initial from "../../../constants/InitialFormData";
 import SearchPanel from "../BaseItems/SearchPanel";
 import PanelID from "../BaseItems/PanelID";
 import NextPrev from "../BaseItems/NextPrev";

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import validateData from './validateData';
 import Button from "./Button";
-import Initial from "../../../../constants/InitialFormData";
+import Initial from "../../../constants/InitialFormData";
 import handleChange from './handleChange';
 
 const CreationPanel = ({ formData, setFormData, setOptions,setPanel,update,setUpdate,Criteria = "employees"}) => {
